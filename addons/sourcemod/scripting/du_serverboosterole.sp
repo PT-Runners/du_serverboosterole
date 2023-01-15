@@ -13,7 +13,7 @@ bool g_bIsServerBooster[MAXPLAYERS + 1] = {false, ...};
 
 char g_sRoleId[60];
 
-public Plugin myinfo = 
+public Plugin myinfo =
 {
 	name = "Discord Utilities: Discord Server Booster Role Core",
 	author = "Trayz",
@@ -102,11 +102,21 @@ public void DU_OnClientLoaded(int client)
 {
 	if(!DU_IsChecked(client))
 	{
+		Call_StartForward(g_fClientLoaded);
+		Call_PushCell(client);
+		Call_PushCell(false);
+		Call_Finish();
+
 		return;
 	}
 
 	if(!DU_IsMember(client))
 	{
+		Call_StartForward(g_fClientLoaded);
+		Call_PushCell(client);
+		Call_PushCell(false);
+		Call_Finish();
+
 		return;
 	}
 
@@ -126,7 +136,7 @@ public void OnFetchedRoleId(int client, bool found, any data)
 	Call_PushCell(client);
 	Call_PushCell(g_bIsServerBooster[client]);
 	Call_Finish();
-	
+
 	#if defined DEBUG
 	LogMessage("Client: %N | Found Role Id (%s): %i | Data: %i", client, g_sRoleId, !!found, data);
 	#endif
